@@ -1,5 +1,6 @@
 import type { Player } from '@/components/berenjena/index'
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
 type State = {
   players: Player[]
@@ -16,56 +17,62 @@ type Action = {
   setRoundInput: (input: Record<Player['id'], number>) => void
 }
 
-export const useBerenjena = create<State & Action>((set) => ({
-  players: [],
-  roundInputs: {},
-
-  addPlayer: player => set(state => ({
-    players: [...state.players, player],
-    roundInputs: { ...state.roundInputs, [player.id]: 0 },
-  })),
-
-  removePlayer: id => set(state => ({
-    players: state.players.filter(p => p.id !== id),
-    roundInputs: Object.fromEntries(
-      Object.entries(state.roundInputs).filter(([key]) => key !== id)
-    ),
-  })),
-
-  resetGame: () => set(state => ({
+export const useBerenjena = create<State & Action>()(persist(
+  (set) => ({
     players: [],
     roundInputs: {},
-  })),
 
-  removeLastRound: () => set(state => ({
-    players: state.players.map(player => ({
-      ...player,
-      scores: player.scores.slice(0, -1),
-    }))
-  })),
-
-  addRound: () => set(state => ({
-    players: state.players.map(player => ({
-      ...player,
-      scores: [
-        ...player.scores,
-        state.roundInputs[player.id] || 0,
-      ],
+    addPlayer: player => set(state => ({
+      players: [...state.players, player],
+      roundInputs: { ...state.roundInputs, [player.id]: 0 },
     })),
-    roundInputs: {},
-  })),
 
-  resetInputs: () => set(state => ({
-    roundInputs: state.players.reduce((acc, player) => ({
-      ...acc,
-      [player.id]: 0,
-    }), {})
-  })),
+    removePlayer: id => set(state => ({
+      players: state.players.filter(p => p.id !== id),
+      roundInputs: Object.fromEntries(
+        Object.entries(state.roundInputs).filter(([key]) => key !== id)
+      ),
+    })),
 
-  setRoundInput: input => set(state => ({
-    roundInputs: {
-      ...state.roundInputs,
-      ...input,
-    }
-  })),
-}))
+    resetGame: () => set(() => ({
+      players: [],
+      roundInputs: {},
+    })),
+
+    removeLastRound: () => set(state => ({
+      players: state.players.map(player => ({
+        ...player,
+        scores: player.scores.slice(0, -1),
+      }))
+    })),
+
+    addRound: () => set(state => ({
+      players: state.players.map(player => ({
+        ...player,
+        scores: [
+          ...player.scores,
+          state.roundInputs[player.id] || 0,
+        ],
+      })),
+      roundInputs: {},
+    })),
+
+    resetInputs: () => set(state => ({
+      roundInputs: state.players.reduce((acc, player) => ({
+        ...acc,
+        [player.id]: 0,
+      }), {})
+    })),
+
+    setRoundInput: input => set(state => ({
+      roundInputs: {
+        ...state.roundInputs,
+        ...input,
+      }
+    })),
+  }),
+  {
+    name: 'berenjena-store',
+    storage: createJSONStorage(() => localStorage),
+  }
+))
