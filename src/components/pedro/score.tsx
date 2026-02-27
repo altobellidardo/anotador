@@ -4,22 +4,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { usePedro } from '@/stores/pedro'
 import { ScoreDrawer } from './drawer'
 import type { PedroPlayer } from '@/common/types'
-import { useCallback } from 'react'
+
+const totalScore = (player: PedroPlayer) =>
+  player.scores.reduce((sum, s) => sum + s, 0)
 
 export function PedroScore () {
   const { players, removePlayer } = usePedro()
 
-  const totalScore = useCallback((player: PedroPlayer) =>
-    player.scores.reduce((sum, s) => sum + s, 0), [])
-
-  const sortedPlayers = [...players].sort((a, b) => totalScore(b) - totalScore(a))
+  const hasStarted = players.some(p => p.scores.length > 0)
+  const minScore = players.length > 0 ? Math.min(...players.map(totalScore)) : 0
 
   return (
     <>
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
         {players.map((player) => {
           const score = totalScore(player)
-          const isWinner = sortedPlayers[0]?.id === player.id && score > 0
+          const isWinner = hasStarted && score === minScore
 
           return (
             <Card
@@ -61,8 +61,8 @@ export function PedroScore () {
                       <span
                         key={i}
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm transition-transform hover:scale-105 cursor-default ${s === 0
-                            ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 ring-1 ring-amber-500/20'
-                            : 'bg-rose-500/15 text-rose-700 dark:text-rose-400 ring-1 ring-rose-500/20'
+                          ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 ring-1 ring-amber-500/20'
+                          : 'bg-rose-500/15 text-rose-700 dark:text-rose-400 ring-1 ring-rose-500/20'
                           }`}
                       >
                         {s > 0 ? <ArrowUpCircle className='size-3.5 opacity-70' /> : s < 0 ? <ArrowDownCircle className='size-3.5 opacity-70' /> : <MinusCircle className='size-3.5 opacity-70' />}

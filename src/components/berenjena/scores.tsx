@@ -1,25 +1,24 @@
-import { Trash2, Trophy } from 'lucide-react'
+import { Trash2, Trophy, ArrowUpCircle, ArrowDownCircle, MinusCircle } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { useBerenjena } from '@/stores/berenjena'
 import { ScoreDrawer } from './drawer'
 import type { BerePlayer } from '@/common/types'
-import { useCallback } from 'react'
+
+const totalScore = (player: BerePlayer) =>
+  player.scores.reduce((sum, s) => sum + s, 0)
 
 export function BerenjenaScore () {
   const { players, removePlayer } = useBerenjena()
 
-  const totalScore = useCallback((player: BerePlayer) =>
-    player.scores.reduce((sum, s) => sum + s, 0), [])
-
-  const sortedPlayers = [...players].sort((a, b) => totalScore(b) - totalScore(a))
+  const maxScore = players.length > 0 ? Math.max(...players.map(totalScore)) : 0
 
   return (
     <>
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
         {players.map((player) => {
           const score = totalScore(player)
-          const isWinner = sortedPlayers[0]?.id === player.id && score > 0
+          const isWinner = score === maxScore && score > 0
 
           return (
             <Card
@@ -60,11 +59,14 @@ export function BerenjenaScore () {
                     {player.scores.map((scoreValue: number, i: number) => (
                       <span
                         key={i}
-                        className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm transition-transform hover:scale-105 cursor-default ${scoreValue >= 0
-                          ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-500/20'
-                          : 'bg-rose-500/15 text-rose-700 dark:text-rose-400 ring-1 ring-rose-500/20'
+                        className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm transition-transform hover:scale-105 cursor-default ${scoreValue === 0
+                          ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 ring-1 ring-amber-500/20'
+                          : scoreValue > 0
+                            ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-500/20'
+                            : 'bg-rose-500/15 text-rose-700 dark:text-rose-400 ring-1 ring-rose-500/20'
                           }`}
                       >
+                        {scoreValue > 0 ? <ArrowUpCircle className='size-3.5 opacity-70' /> : scoreValue < 0 ? <ArrowDownCircle className='size-3.5 opacity-70' /> : <MinusCircle className='size-3.5 opacity-70' />}
                         <span className='tabular-nums'>R{i + 1}: {scoreValue}</span>
                       </span>
                     ))}
