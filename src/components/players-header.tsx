@@ -1,10 +1,10 @@
 import { RotateCcw } from 'lucide-react'
 import { ConfirmDrawer } from './confirm-drawer'
 import { Button } from './ui/button'
-import { BerePlayer, ChanPlayer } from '@/common/types'
+import { BasePlayer } from '@/common/types'
 
 interface Props {
-  players: BerePlayer[] | ChanPlayer[],
+  players: BasePlayer[],
   resetGame: () => void
   roundCount?: number
 }
