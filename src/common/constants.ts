@@ -23,6 +23,11 @@ export const GAME_CONFIG = {
       players: [],
       roundInputs: {},
     }
+  },
+  PEDRO: {
+    INITIAL_STATE: {
+      players: [],
+    }
   }
 } as const
 
