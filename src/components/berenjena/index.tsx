@@ -1,23 +1,33 @@
 'use client'
 
-import { HeaderBerenjena } from './header'
-import { PlayerBerenjena } from './players'
+import { AddPlayers } from '../add-players'
+import { PlayersHeader } from '../players-header'
 import { ScoresBerenjena } from './scores'
 import { useBerenjena } from '@/stores/berenjena'
-
-export interface Player {
-  id: string
-  name: string
-  scores: number[]
-}
+import { useCallback } from 'react'
+import { randomUUID } from '@/lib/uuid'
+import { BerePlayer } from '@/common/types'
 
 function Berenjena () {
-  const { players } = useBerenjena()
+  const { players, resetGame, addPlayer } = useBerenjena()
+
+  const newPlayer = useCallback((name: string) => {
+    if (!name.trim()) return
+
+    const player: BerePlayer = {
+      id: randomUUID(),
+      name: name.trim().charAt(0).toUpperCase() + name.trim().slice(1),
+      scores: [],
+    }
+    addPlayer(player)
+  }, [addPlayer])
+
+  const roundCount = players.length > 0 ? players[0].scores.length : 0
 
   return (
     <div className='mx-auto flex w-full max-w-4xl flex-1 flex-col gap-6 px-4 py-8'>
-      <HeaderBerenjena />
-      <PlayerBerenjena />
+      <PlayersHeader players={players} resetGame={resetGame} roundCount={roundCount} />
+      <AddPlayers addPlayer={newPlayer} />
 
       {players.length > 0
         ? <ScoresBerenjena />

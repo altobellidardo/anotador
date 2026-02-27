@@ -3,13 +3,13 @@ import { Button } from '../ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { useBerenjena } from '@/stores/berenjena'
 import { ScoreDrawer } from './drawer'
-import type { Player } from './index'
+import type { BerePlayer } from '@/common/types'
 import { useCallback } from 'react'
 
 export function ScoresBerenjena () {
   const { players, removePlayer } = useBerenjena()
 
-  const totalScore = useCallback((player: Player) =>
+  const totalScore = useCallback((player: BerePlayer) =>
     player.scores.reduce((sum, s) => sum + s, 0), [])
 
   return (
