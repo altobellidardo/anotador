@@ -6,6 +6,7 @@ import Berenjena from '@/components/berenjena/index'
 import Chancho from '@/components/chancho/index'
 import { GAMES_ID } from '@/common/constants'
 import Pedro from '@/components/pedro/index'
+import Chinchon from '@/components/chinchon/index'
 
 export async function generateMetadata ({
   params,
@@ -42,6 +43,8 @@ export default async function GamePage ({
       return <Chancho />
     case GAMES_ID.PEDRO:
       return <Pedro />
+    case GAMES_ID.CHINCHON:
+      return <Chinchon />
     default:
       return null
   }

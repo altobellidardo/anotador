@@ -15,3 +15,4 @@ export interface ChanPlayer extends BasePlayer {
 }
 
 export type PedroPlayer = BerePlayer
+export type ChinchonPlayer = BerePlayer

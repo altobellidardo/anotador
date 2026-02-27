@@ -1,10 +1,9 @@
-import { useCallback } from 'react'
 import { UI_CONFIG } from '@/common/constants'
 
-export function Matchbox ({ amount }: { amount: number }) {
-  const getColor = useCallback((condition: boolean) =>
-    condition ? UI_CONFIG.COLORS.MATCHBOX_ACTIVE : UI_CONFIG.COLORS.MATCHBOX_INACTIVE, [])
+const getColor = (condition: boolean) =>
+  condition ? UI_CONFIG.COLORS.MATCHBOX_ACTIVE : UI_CONFIG.COLORS.MATCHBOX_INACTIVE
 
+export function Matchbox ({ amount }: { amount: number }) {
   return (
     <svg
       width={UI_CONFIG.DIMENSIONS.MATCHBOX_SIZE.width}

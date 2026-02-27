@@ -29,6 +29,12 @@ export const GAME_CONFIG = {
       players: [],
       roundInputs: {},
     }
+  },
+  CHINCHON: {
+    INITIAL_STATE: {
+      players: [],
+      roundInputs: {},
+    }
   }
 } as const
 

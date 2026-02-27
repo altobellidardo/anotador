@@ -8,7 +8,7 @@ function Letter ({ active, text }: { active: boolean; text: string }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center justify-center rounded-xl px-4 py-3 text-3xl font-black shadow-sm ring-1 ring-primary/10 transition-all duration-300 transform',
+        'inline-flex items-center justify-center rounded-xl size-10 sm:size-12 lg:size-14 text-xl sm:text-2xl lg:text-3xl font-black shadow-sm ring-1 ring-primary/10 transition-all duration-300 transform',
         active
           ? 'bg-linear-to-b from-primary to-primary/80 text-primary-foreground shadow-md scale-110 -translate-y-1'
           : 'bg-linear-to-b from-primary/10 to-primary/5 text-primary/40'
@@ -53,7 +53,7 @@ export function ChanchoScore () {
             </CardHeader>
             <CardContent className='flex flex-col gap-6 pt-2'>
               <div
-                className='flex justify-between items-center px-1'
+                className='flex justify-center gap-1 sm:gap-2 items-center px-1 py-2 w-full'
                 aria-label={`Puntuación de ${player.name}`}
               >
                 <Letter active={player.score >= 1} text='C' />

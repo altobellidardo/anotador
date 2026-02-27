@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { TrucoScores, TrucoTeam } from '@/common/types'
 import { GAME_CONFIG } from '@/common/constants'
@@ -25,12 +25,12 @@ function Matchboxes ({ amount }: { amount: number }) {
 function TrucoScoreboard () {
   const [scores, setScores] = useState<TrucoScores>({ nosotros: 0, ellos: 0 })
 
-  const changeScore = useCallback((team: TrucoTeam, amount: number) => {
+  const changeScore = (team: TrucoTeam, amount: number) => {
     setScores(prev => {
       const newScore = Math.max(0, Math.min(GAME_CONFIG.TRUCO.MAX_SCORE, prev[team] + amount))
       return { ...prev, [team]: newScore }
     })
-  }, [])
+  }
 
   return (
     <section className='h-full flex flex-col items-center justify-center p-4 lg:p-8'>

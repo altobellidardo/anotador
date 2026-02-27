@@ -2,16 +2,15 @@ import { UserPlus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { useCallback } from 'react'
 
 interface Props {
   addPlayer: (name: string) => void,
 }
 
 export function AddPlayers ({ addPlayer }: Props) {
-  const handleAddPlayer = useCallback((name: string) => {
+  const handleAddPlayer = (name: string) => {
     addPlayer(name)
-  }, [addPlayer])
+  }
 
   return (
     <Card className='border-dashed border-border'>
