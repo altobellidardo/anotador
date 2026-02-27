@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import Truco from '@/components/truco'
+import Truco from '@/components/truco/index'
 import { getGame } from '@/lib/getGame'
 import Berenjena from '@/components/berenjena/index'
+import Chancho from '@/components/chancho/index'
+import { GAMES_ID } from '@/common/constants'
 
 export async function generateMetadata ({
   params,
@@ -30,11 +32,13 @@ export default async function GamePage ({
     notFound()
   }
 
-  switch (game.name) {
-    case 'Truco':
+  switch (game.id) {
+    case GAMES_ID.TRUCO:
       return <Truco />
-    case 'Berenjena':
+    case GAMES_ID.BERENJENA:
       return <Berenjena />
+    case GAMES_ID.CHANCHO:
+      return <Chancho />
     default:
       return null
   }

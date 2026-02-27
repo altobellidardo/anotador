@@ -1,3 +1,11 @@
+export enum GAMES_ID {
+  TRUCO = 'truco',
+  BERENJENA = 'berenjena',
+  CHANCHO = 'chancho',
+  PEDRO = 'pedro',
+  CHINCHON = 'chinchon'
+}
+
 export const GAME_CONFIG = {
   TRUCO: {
     MAX_SCORE: 30,
@@ -5,6 +13,17 @@ export const GAME_CONFIG = {
     TOTAL_BOXES: 6,
     BOX_ORDER: [0, 2, 4, 1, 3, 5] as const,
   },
+  CHANCHO: {
+    INITIAL_STATE: {
+      players: [],
+    }
+  },
+  BERENJENA: {
+    INITIAL_STATE: {
+      players: [],
+      roundInputs: {},
+    }
+  }
 } as const
 
 export const UI_CONFIG = {
