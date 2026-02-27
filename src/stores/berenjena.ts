@@ -1,20 +1,21 @@
-import type { Player } from '@/components/berenjena/index'
+import { GAME_CONFIG } from '@/common/constants'
+import { BerePlayer } from '@/common/types'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
 type State = {
-  players: Player[]
-  roundInputs: Record<Player['id'], number>
+  players: BerePlayer[]
+  roundInputs: Record<BerePlayer['id'], number>
 }
 
 type Action = {
-  addPlayer: (player: Player) => void
+  addPlayer: (player: BerePlayer) => void
   removePlayer: (id: string) => void
   resetGame: () => void
   removeLastRound: () => void
   addRound: () => void,
   resetInputs: () => void,
-  setRoundInput: (input: Record<Player['id'], number>) => void
+  setRoundInput: (input: Record<BerePlayer['id'], number>) => void
 }
 
 export const useBerenjena = create<State & Action>()(persist(
@@ -34,10 +35,10 @@ export const useBerenjena = create<State & Action>()(persist(
       ),
     })),
 
-    resetGame: () => set(() => ({
-      players: [],
-      roundInputs: {},
-    })),
+    resetGame: () => set({
+      players: [...GAME_CONFIG.BERENJENA.INITIAL_STATE.players],
+      roundInputs: GAME_CONFIG.BERENJENA.INITIAL_STATE.roundInputs,
+    }),
 
     removeLastRound: () => set(state => ({
       players: state.players.map(player => ({
