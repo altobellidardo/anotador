@@ -10,7 +10,7 @@ function Letter ({ active, text }: { active: boolean; text: string }) {
   )
 }
 
-export function ScoresChancho () {
+export function ChanchoScore () {
   const { players, removePlayer, incScore, decScore } = useChancho()
 
   return (

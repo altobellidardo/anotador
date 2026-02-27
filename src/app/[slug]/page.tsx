@@ -5,7 +5,7 @@ import { getGame } from '@/lib/getGame'
 import Berenjena from '@/components/berenjena/index'
 import Chancho from '@/components/chancho/index'
 import { GAMES_ID } from '@/common/constants'
-import Pedro from '@/components/pedro'
+import Pedro from '@/components/pedro/index'
 
 export async function generateMetadata ({
   params,

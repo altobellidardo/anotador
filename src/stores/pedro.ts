@@ -1,42 +1,75 @@
+import { GAME_CONFIG } from '@/common/constants'
 import { PedroPlayer } from '@/common/types'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { GAME_CONFIG } from '@/common/constants'
 
 type State = {
   players: PedroPlayer[]
+  roundInputs: Record<PedroPlayer['id'], number>
 }
 
 type Action = {
   addPlayer: (player: PedroPlayer) => void
   removePlayer: (id: string) => void
   resetGame: () => void
-  incScore: (id: string) => void
-  decScore: (id: string) => void
+  removeLastRound: () => void
+  addRound: () => void,
+  resetInputs: () => void,
+  setRoundInput: (input: Record<PedroPlayer['id'], number>) => void
 }
 
 export const usePedro = create<State & Action>()(persist(
   (set) => ({
     players: [],
+    roundInputs: {},
 
     addPlayer: player => set(state => ({
-      players: [...state.players, player]
+      players: [...state.players, player],
+      roundInputs: { ...state.roundInputs, [player.id]: 0 },
     })),
 
     removePlayer: id => set(state => ({
       players: state.players.filter(p => p.id !== id),
+      roundInputs: Object.fromEntries(
+        Object.entries(state.roundInputs).filter(([key]) => key !== id)
+      ),
     })),
 
     resetGame: () => set({
       players: [...GAME_CONFIG.PEDRO.INITIAL_STATE.players],
+      roundInputs: GAME_CONFIG.PEDRO.INITIAL_STATE.roundInputs,
     }),
 
-    incScore: id => set(state => ({
-      players: state.players.map(p => p.id === id ? { ...p, score: Math.min(p.score + 1, 7) } : p),
+    removeLastRound: () => set(state => ({
+      players: state.players.map(player => ({
+        ...player,
+        scores: player.scores.slice(0, -1),
+      }))
     })),
 
-    decScore: id => set(state => ({
-      players: state.players.map(p => p.id === id ? { ...p, score: Math.max(p.score - 1, 0) } : p),
+    addRound: () => set(state => ({
+      players: state.players.map(player => ({
+        ...player,
+        scores: [
+          ...player.scores,
+          state.roundInputs[player.id] || 0,
+        ],
+      })),
+      roundInputs: {},
+    })),
+
+    resetInputs: () => set(state => ({
+      roundInputs: state.players.reduce((acc, player) => ({
+        ...acc,
+        [player.id]: 0,
+      }), {})
+    })),
+
+    setRoundInput: input => set(state => ({
+      roundInputs: {
+        ...state.roundInputs,
+        ...input,
+      }
     })),
   }),
   {

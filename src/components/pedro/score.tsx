@@ -1,15 +1,15 @@
 import { Trash2 } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { useBerenjena } from '@/stores/berenjena'
+import { usePedro } from '@/stores/pedro'
 import { ScoreDrawer } from './drawer'
-import type { BerePlayer } from '@/common/types'
+import type { PedroPlayer } from '@/common/types'
 import { useCallback } from 'react'
 
-export function BerenjenaScore () {
-  const { players, removePlayer } = useBerenjena()
+export function PedroScore () {
+  const { players, removePlayer } = usePedro()
 
-  const totalScore = useCallback((player: BerePlayer) =>
+  const totalScore = useCallback((player: PedroPlayer) =>
     player.scores.reduce((sum, s) => sum + s, 0), [])
 
   return (
