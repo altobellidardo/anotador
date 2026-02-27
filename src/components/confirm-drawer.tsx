@@ -13,14 +13,14 @@ import {
 } from '@/components/ui/drawer'
 import { useState } from 'react'
 
-interface ConfirmDrawerProps {
+interface Props {
   title: string
   description?: string
   confirmFn?: () => void
   children?: React.ReactNode
 }
 
-export function ConfirmDrawer ({ title, description, confirmFn, children }: ConfirmDrawerProps) {
+export function ConfirmDrawer ({ title, description, confirmFn, children }: Props) {
   const [open, setOpen] = useState(false)
 
   const handleConfirm = () => {
@@ -32,7 +32,6 @@ export function ConfirmDrawer ({ title, description, confirmFn, children }: Conf
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         {children}
-        {/* <Button variant='outline' className={triggerClassName} disabled={disabled}>{openText}</Button> */}
       </DrawerTrigger>
       <DrawerContent>
         <div className='mx-auto w-full max-w-sm'>
