@@ -29,7 +29,7 @@ export function CarouselDemo () {
   }
 
   return (
-    <Carousel className='w-full max-w-48 sm:max-w-xs mx-auto select-none'>
+    <Carousel className='w-[65vw] max-w-[260px] sm:max-w-xs mx-auto select-none'>
       <CarouselContent>
         {players.map((player, index) => (
           <CarouselItem key={index}>
@@ -42,8 +42,8 @@ export function CarouselDemo () {
                   <div className='flex flex-col items-center gap-6'>
                     <span className='text-4xl font-semibold'>{roundInputs[player.id]}</span>
                     <div className='flex items-center gap-2'>
-                      <Button variant='secondary' size='lg' className='text-xl font-bold active:bg-primary/30 select-none' onClick={() => inc(player.id)}>+</Button>
                       <Button variant='secondary' size='lg' className='text-xl font-bold active:bg-primary/30 select-none' disabled={roundInputs[player.id] === 0} onClick={() => dec(player.id)}>-</Button>
+                      <Button variant='secondary' size='lg' className='text-xl font-bold active:bg-primary/30 select-none' onClick={() => inc(player.id)}>+</Button>
                     </div>
                   </div>
                 </CardContent>

@@ -4,6 +4,7 @@ import { DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHead
 import { useState } from 'react'
 import { useBerenjena } from '@/stores/berenjena'
 import { CarouselDemo } from './carousel'
+import { ConfirmDrawer } from '@/components/confirm-drawer'
 
 export function ScoreDrawer () {
   const { players, addRound, removeLastRound, resetInputs } = useBerenjena()
@@ -45,14 +46,19 @@ export function ScoreDrawer () {
         </DrawerContent>
       </Drawer>
       {roundCount > 0 && (
-        <Button
-          variant='outline'
-          onClick={removeLastRound}
-          className='gap-2'
+        <ConfirmDrawer
+          title='¿Deshacer última ronda?'
+          description='Esta acción no se puede deshacer.'
+          confirmFn={removeLastRound}
         >
-          <RotateCcw className='size-4' />
-          Deshacer ultima
-        </Button>
+          <Button
+            variant='outline'
+            className='gap-2'
+          >
+            <RotateCcw className='size-4' />
+            Deshacer ultima
+          </Button>
+        </ConfirmDrawer>
       )}
     </div>
   )

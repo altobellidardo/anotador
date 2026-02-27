@@ -73,7 +73,9 @@ function TrucoScoreboard () {
             </div>
           ))}
         </div>
+      </div>
 
+      <div className='mt-8 flex w-full max-w-2xl justify-center relative z-10'>
         <ConfirmDrawer
           title='¿Estás seguro de reiniciar el juego?'
           description='Esta acción no se puede deshacer y los puntos volverán a 0.'
@@ -81,12 +83,12 @@ function TrucoScoreboard () {
         >
           <Button
             variant='outline'
-            size='default'
+            size='lg'
             disabled={scores.nosotros === 0 && scores.ellos === 0}
-            className='absolute top-4 right-4 sm:top-6 sm:right-6 bg-background/50 backdrop-blur-sm rounded-full shadow-sm hover:shadow active:scale-95 transition-all text-muted-foreground hover:text-foreground touch-manipulation focus-visible:ring-2 disabled:opacity-50'
+            className='bg-background/50 backdrop-blur-sm rounded-full shadow-sm hover:shadow active:scale-95 transition-all text-muted-foreground hover:text-foreground touch-manipulation focus-visible:ring-2 disabled:opacity-50 px-8'
           >
             <RotateCcw className='size-4 mr-2' />
-            Reiniciar
+            Reiniciar tablero
           </Button>
         </ConfirmDrawer>
       </div>
