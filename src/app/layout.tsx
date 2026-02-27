@@ -1,6 +1,7 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Outfit, Geist_Mono as GeistMono } from 'next/font/google'
 import './globals.css'
+import { PwaRegistrar } from '@/components/pwa-registrar'
 
 const outfitSans = Outfit({
   variable: '--font-outfit-sans',
@@ -15,6 +16,22 @@ const geistMono = GeistMono({
 export const metadata: Metadata = {
   title: 'Anotador de Puntos',
   description: 'Lleva el marcador de tus juegos de cartas favoritos de forma sencilla y rapida.',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Anotador',
+  },
+  formatDetection: {
+    telephone: false,
+  }
+}
+
+export const viewport: Viewport = {
+  themeColor: '#09090b',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout ({
@@ -40,6 +57,7 @@ export default function RootLayout ({
         <div className='relative z-10 flex min-h-dvh flex-col backdrop-blur-[2px]'>
           {children}
         </div>
+        <PwaRegistrar />
       </body>
     </html>
   )
