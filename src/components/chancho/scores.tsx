@@ -6,7 +6,16 @@ import { cn } from '@/lib/utils'
 
 function Letter ({ active, text }: { active: boolean; text: string }) {
   return (
-    <span className={cn('rounded-lg bg-primary/5 px-3 py-2 text-2xl font-bold text-primary', active && 'bg-primary text-primary-foreground')}>{text}</span>
+    <span
+      className={cn(
+        'inline-flex items-center justify-center rounded-xl px-4 py-3 text-3xl font-black shadow-sm ring-1 ring-primary/10 transition-all duration-300 transform',
+        active
+          ? 'bg-linear-to-b from-primary to-primary/80 text-primary-foreground shadow-md scale-110 -translate-y-1'
+          : 'bg-linear-to-b from-primary/10 to-primary/5 text-primary/40'
+      )}
+    >
+      {text}
+    </span>
   )
 }
 
@@ -15,29 +24,38 @@ export function ChanchoScore () {
 
   return (
     <>
-      <div className='grid gap-3 sm:grid-cols-2'>
+      <div className='grid gap-4 sm:grid-cols-2'>
         {players.map((player) => (
-          <Card key={player.id} className={cn('gap-0', player.score >= 7 && 'bg-red-500/50')}>
-            <CardHeader>
+          <Card
+            key={player.id}
+            className={cn(
+              'relative gap-0 overflow-hidden transform transition-all duration-300 hover:shadow-xl border-primary/10 hover:border-primary/30 group',
+              player.score >= 7 && 'bg-red-500/50'
+            )}
+          >
+            <div className='absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none' />
+
+            <CardHeader className='pb-2'>
               <div className='flex items-start justify-between'>
-                <CardTitle className='font-(family-name:--font-heading) text-base'>
+                <CardTitle className='font-(family-name:--font-heading) text-lg truncate pr-2'>
                   {player.name}
                 </CardTitle>
                 <Button
                   variant='ghost'
                   size='icon-sm'
                   onClick={() => removePlayer(player.id)}
-                  className='text-muted-foreground hover:text-destructive'
+                  className='text-muted-foreground hover:text-destructive hover:bg-destructive/10 active:scale-95 transition-all z-10 touch-manipulation focus-visible:ring-2 focus-visible:ring-destructive/50'
+                  aria-label={`Eliminar ${player.name}`}
                 >
-                  <Trash2 className='size-3.5' />
-                  <span className='sr-only'>
-                    Eliminar {player.name}
-                  </span>
+                  <Trash2 className='size-4' />
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className='flex flex-col gap-4'>
-              <div className='space-x-1' aria-label={`Puntuación de ${player.name}`}>
+            <CardContent className='flex flex-col gap-6 pt-2'>
+              <div
+                className='flex justify-between items-center px-1'
+                aria-label={`Puntuación de ${player.name}`}
+              >
                 <Letter active={player.score >= 1} text='C' />
                 <Letter active={player.score >= 2} text='H' />
                 <Letter active={player.score >= 3} text='A' />
@@ -47,24 +65,26 @@ export function ChanchoScore () {
                 <Letter active={player.score >= 7} text='O' />
               </div>
 
-              <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-3'>
                 <Button
                   variant='secondary'
                   size='lg'
-                  className='text-xl font-bold active:bg-primary/30 select-none'
+                  className='flex-1 h-14 text-xl font-bold rounded-xl active:bg-primary/30 hover:bg-primary/20 transition-colors select-none touch-manipulation focus-visible:ring-2 focus-visible:ring-primary/50'
                   onClick={() => incScore(player.id)}
                   disabled={player.score >= 7}
+                  aria-label='Aumentar puntuación'
                 >
-                  <ArrowUp className='size-5' />
+                  <ArrowUp className='size-6' />
                 </Button>
                 <Button
                   variant='secondary'
                   size='lg'
-                  className='text-xl font-bold active:bg-primary/30 select-none'
+                  className='flex-1 h-14 text-xl font-bold rounded-xl active:bg-red-500/30 hover:bg-red-500/20 hover:text-red-600 transition-colors select-none touch-manipulation focus-visible:ring-2 focus-visible:ring-red-500/50'
                   onClick={() => decScore(player.id)}
                   disabled={player.score <= 0}
+                  aria-label='Disminuir puntuación'
                 >
-                  <ArrowDown className='size-5' />
+                  <ArrowDown className='size-6' />
                 </Button>
               </div>
 

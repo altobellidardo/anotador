@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { TrucoScores, TrucoTeam } from '@/common/types'
 import { GAME_CONFIG } from '@/common/constants'
 import { ConfirmDrawer } from '@/components/confirm-drawer'
-import { RotateCcw } from 'lucide-react'
+import { RotateCcw, Plus, Minus } from 'lucide-react'
 import { Matchbox } from './matchbox'
 
 function TrucoScoreboard () {
@@ -33,34 +33,41 @@ function TrucoScoreboard () {
   }, [])
 
   return (
-    <section className='h-full flex flex-col items-center justify-center p-4'>
-      <div className='rounded-2xl shadow-xl w-full max-w-md overflow-hidden border-2 border-border'>
+    <section className='h-full flex flex-col items-center justify-center p-4 lg:p-8'>
+      <div className='rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden bg-background ring-1 ring-border/50 relative'>
+        <div className='absolute inset-0 bg-linear-to-br from-primary/5 to-transparent pointer-events-none' />
 
-        <div className='grid grid-cols-2 divide-x-2 divide-border p-6'>
-
+        <div className='grid grid-cols-2 divide-x divide-border/50 relative z-10'>
           {(['nosotros', 'ellos'] as TrucoTeam[]).map((team) => (
-            <div key={team} className='flex flex-col items-center px-2'>
-              <h2 className='text-lg font-bold text-primary mb-6 capitalize select-none'>{team}</h2>
-              <div className='text-3xl font-black text-accent-foreground mb-2'>{scores[team]}</div>
+            <div key={team} className='flex flex-col items-center px-4 py-8 sm:px-8'>
+              <h2 className='text-sm sm:text-base font-bold text-primary/70 tracking-widest uppercase mb-4 select-none'>
+                {team}
+              </h2>
 
-              <div className='grid grid-cols-2 gap-4 min-h-45 mb-8 w-full justify-items-center'>
+              <div className='text-6xl sm:text-7xl font-black text-primary mb-8 drop-shadow-sm tabular-nums transition-all'>
+                {scores[team]}
+              </div>
+
+              <div className='grid grid-cols-2 gap-4 sm:gap-6 min-h-45 mb-10 w-full justify-items-center'>
                 <Matchboxes amount={scores[team]} />
               </div>
 
-              <div className='flex space-x-3 mt-auto'>
+              <div className='flex space-x-4 mt-auto w-full max-w-[160px]'>
                 <Button
                   onClick={() => changeScore(team, -1)}
-                  className='bg-red-700/30 hover:bg-red-800/50 active:bg-red-800/70 text-primary disabled:opacity-50 rounded-xl text-3xl size-12 transition-transform active:scale-95 leading-none pt-1 select-none'
+                  className='flex-1 h-16 rounded-2xl bg-destructive/10 hover:bg-destructive/20 active:bg-destructive/30 text-destructive disabled:opacity-30 disabled:hover:bg-destructive/10 transition-all active:scale-95 touch-manipulation focus-visible:ring-2 focus-visible:ring-destructive/50'
                   disabled={scores[team] === 0}
+                  aria-label={`Restar punto a ${team}`}
                 >
-                  -
+                  <Minus className='size-6' />
                 </Button>
                 <Button
                   onClick={() => changeScore(team, 1)}
-                  className='bg-green-700/30 hover:bg-green-800/50 active:bg-green-800/70 text-primary disabled:opacity-50 rounded-xl text-3xl size-12 transition-transform active:scale-95 leading-none pt-1 select-none'
+                  className='flex-1 h-16 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 active:bg-emerald-500/30 text-emerald-600 dark:text-emerald-400 disabled:opacity-30 disabled:hover:bg-emerald-500/10 transition-all active:scale-95 touch-manipulation focus-visible:ring-2 focus-visible:ring-emerald-500/50 shadow-xs'
                   disabled={scores[team] === GAME_CONFIG.TRUCO.MAX_SCORE}
+                  aria-label={`Sumar punto a ${team}`}
                 >
-                  +
+                  <Plus className='size-6' />
                 </Button>
               </div>
             </div>
@@ -69,16 +76,16 @@ function TrucoScoreboard () {
 
         <ConfirmDrawer
           title='¿Estás seguro de reiniciar el juego?'
-          description='Esta acción no se puede deshacer.'
+          description='Esta acción no se puede deshacer y los puntos volverán a 0.'
           confirmFn={() => setScores({ nosotros: 0, ellos: 0 })}
         >
           <Button
             variant='outline'
-            size='sm'
+            size='default'
             disabled={scores.nosotros === 0 && scores.ellos === 0}
-            className='absolute bottom-4 right-4 disabled:opacity-50'
+            className='absolute top-4 right-4 sm:top-6 sm:right-6 bg-background/50 backdrop-blur-sm rounded-full shadow-sm hover:shadow active:scale-95 transition-all text-muted-foreground hover:text-foreground touch-manipulation focus-visible:ring-2 disabled:opacity-50'
           >
-            <RotateCcw className='size-4' />
+            <RotateCcw className='size-4 mr-2' />
             Reiniciar
           </Button>
         </ConfirmDrawer>
