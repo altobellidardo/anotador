@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest (): MetadataRoute.Manifest {
   return {
-    name: 'Anotador Va!',
+    name: 'Anotador',
     short_name: 'Anotador',
-    description: 'Anotador universal offline para juegos de mesa y cartas.',
+    description: 'Anotador offline para juegos de cartas.',
     start_url: '/',
     display: 'standalone',
     background_color: '#09090b',
