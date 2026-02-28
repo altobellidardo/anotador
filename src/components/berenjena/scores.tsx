@@ -2,8 +2,10 @@ import { Trash2, Trophy, ArrowUpCircle, ArrowDownCircle, MinusCircle } from 'luc
 import { Button } from '../ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { useBerenjena } from '@/stores/berenjena'
-import { ScoreDrawer } from './drawer'
 import type { BerePlayer } from '@/common/types'
+import dynamic from 'next/dynamic'
+
+const ScoreDrawer = dynamic(() => import('./drawer').then(mod => mod.ScoreDrawer))
 
 const totalScore = (player: BerePlayer) =>
   player.scores.reduce((sum, s) => sum + s, 0)

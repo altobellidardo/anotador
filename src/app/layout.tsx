@@ -6,11 +6,13 @@ import { PwaRegistrar } from '@/components/pwa-registrar'
 const outfitSans = Outfit({
   variable: '--font-outfit-sans',
   subsets: ['latin'],
+  display: 'swap',
 })
 
 const geistMono = GeistMono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {

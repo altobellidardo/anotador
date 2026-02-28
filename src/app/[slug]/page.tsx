@@ -1,12 +1,14 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import Truco from '@/components/truco/index'
-import { getGame } from '@/lib/getGame'
-import Berenjena from '@/components/berenjena/index'
-import Chancho from '@/components/chancho/index'
+import dynamic from 'next/dynamic'
 import { GAMES_ID } from '@/common/constants'
-import Pedro from '@/components/pedro/index'
-import Chinchon from '@/components/chinchon/index'
+import { getGame } from '@/lib/getGame'
+
+const Truco = dynamic(() => import('@/components/truco/index'))
+const Berenjena = dynamic(() => import('@/components/berenjena/index'))
+const Chancho = dynamic(() => import('@/components/chancho/index'))
+const Pedro = dynamic(() => import('@/components/pedro/index'))
+const Chinchon = dynamic(() => import('@/components/chinchon/index'))
 
 export async function generateMetadata ({
   params,
