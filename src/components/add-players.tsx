@@ -7,7 +7,7 @@ interface Props {
   addPlayer: (name: string) => void,
 }
 
-export function AddPlayers ({ addPlayer }: Props) {
+export function AddPlayers({ addPlayer }: Props) {
   const handleAddPlayer = (name: string) => {
     addPlayer(name)
   }
@@ -16,10 +16,11 @@ export function AddPlayers ({ addPlayer }: Props) {
     <Card className='border-dashed border-border'>
       <CardContent className='pt-0'>
         <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            handleAddPlayer(e.target.newPlayerName.value)
-            e.target.newPlayerName.value = ''
+          action={(formData) => {
+            const name = formData.get('newPlayerName') as string
+            if (name) handleAddPlayer(name)
+            const input = document.querySelector('input[name="newPlayerName"]') as HTMLInputElement
+            if (input) input.value = ''
           }}
           className='flex gap-2'
         >

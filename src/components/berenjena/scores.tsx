@@ -10,7 +10,7 @@ const ScoreDrawer = dynamic(() => import('./drawer').then(mod => mod.ScoreDrawer
 const totalScore = (player: BerePlayer) =>
   player.scores.reduce((sum, s) => sum + s, 0)
 
-export function BerenjenaScore () {
+export function BerenjenaScore() {
   const { players, removePlayer } = useBerenjena()
 
   const maxScore = players.length > 0 ? Math.max(...players.map(totalScore)) : 0
@@ -58,18 +58,18 @@ export function BerenjenaScore () {
 
                 {player.scores.length > 0 && (
                   <div className='flex flex-wrap gap-2 pt-1'>
-                    {player.scores.map((scoreValue: number, i: number) => (
+                    {Object.entries(player.scores).map(([k, scoreValue]) => (
                       <span
-                        key={i}
+                        key={`${player.id}-round-${k}`}
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm transition-transform hover:scale-105 cursor-default ${scoreValue === 0
                           ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 ring-1 ring-amber-500/20'
-                          : scoreValue > 0
+                          : (scoreValue as number) > 0
                             ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 ring-1 ring-emerald-500/20'
                             : 'bg-rose-500/15 text-rose-700 dark:text-rose-400 ring-1 ring-rose-500/20'
                           }`}
                       >
-                        {scoreValue > 0 ? <ArrowUpCircle className='size-3.5 opacity-70' /> : scoreValue < 0 ? <ArrowDownCircle className='size-3.5 opacity-70' /> : <MinusCircle className='size-3.5 opacity-70' />}
-                        <span className='tabular-nums'>R{i + 1}: {scoreValue}</span>
+                        {(scoreValue as number) > 0 ? <ArrowUpCircle className='size-3.5 opacity-70' /> : (scoreValue as number) < 0 ? <ArrowDownCircle className='size-3.5 opacity-70' /> : <MinusCircle className='size-3.5 opacity-70' />}
+                        <span className='tabular-nums'>R{parseInt(k) + 1}: {scoreValue as number}</span>
                       </span>
                     ))}
                   </div>

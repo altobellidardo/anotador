@@ -10,7 +10,7 @@ import { usePedro } from '@/stores/pedro'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-export function CarouselPedro () {
+export function CarouselPedro() {
   const { players, roundInputs, setRoundInput } = usePedro()
 
   const changeAmount = (id: string, amount: number) => {
@@ -25,8 +25,8 @@ export function CarouselPedro () {
   return (
     <Carousel className='w-[65vw] max-w-[260px] sm:max-w-xs mx-auto select-none'>
       <CarouselContent>
-        {players.map((player, index) => (
-          <CarouselItem key={index}>
+        {players.map((player) => (
+          <CarouselItem key={player.id}>
             <div className='p-1'>
               <Card>
                 <CardHeader>

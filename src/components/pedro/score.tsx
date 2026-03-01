@@ -10,7 +10,7 @@ const ScoreDrawer = dynamic(() => import('./drawer').then(mod => mod.ScoreDrawer
 const totalScore = (player: PedroPlayer) =>
   player.scores.reduce((sum, s) => sum + s, 0)
 
-export function PedroScore () {
+export function PedroScore() {
   const { players, removePlayer } = usePedro()
 
   const hasStarted = players.some(p => p.scores.length > 0)
@@ -59,16 +59,16 @@ export function PedroScore () {
 
                 {player.scores.length > 0 && (
                   <div className='flex flex-wrap gap-2 pt-1'>
-                    {player.scores.map((s: number, i: number) => (
+                    {Object.entries(player.scores).map(([k, s]) => (
                       <span
-                        key={i}
+                        key={`${player.id}-round-${k}`}
                         className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm transition-transform hover:scale-105 cursor-default ${s === 0
                           ? 'bg-amber-500/15 text-amber-700 dark:text-amber-400 ring-1 ring-amber-500/20'
                           : 'bg-rose-500/15 text-rose-700 dark:text-rose-400 ring-1 ring-rose-500/20'
                           }`}
                       >
-                        {s > 0 ? <ArrowUpCircle className='size-3.5 opacity-70' /> : s < 0 ? <ArrowDownCircle className='size-3.5 opacity-70' /> : <MinusCircle className='size-3.5 opacity-70' />}
-                        <span className='tabular-nums'>R{i + 1}: {s}</span>
+                        {(s as number) > 0 ? <ArrowUpCircle className='size-3.5 opacity-70' /> : (s as number) < 0 ? <ArrowDownCircle className='size-3.5 opacity-70' /> : <MinusCircle className='size-3.5 opacity-70' />}
+                        <span className='tabular-nums'>R{parseInt(k) + 1}: {s as number}</span>
                       </span>
                     ))}
                   </div>

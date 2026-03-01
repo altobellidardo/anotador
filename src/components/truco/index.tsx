@@ -8,21 +8,21 @@ import { ConfirmDrawer } from '@/components/confirm-drawer'
 import { RotateCcw, Plus, Minus } from 'lucide-react'
 import { Matchbox } from './matchbox'
 
-function Matchboxes ({ amount }: { amount: number }) {
+function Matchboxes({ amount }: { amount: number }) {
   const boxes = []
 
   for (let i = 0; i < GAME_CONFIG.TRUCO.TOTAL_BOXES; i++) {
     const pointsLeft = Math.max(0, amount - i * GAME_CONFIG.TRUCO.POINTS_PER_BOX)
     const pointsInBox = Math.min(GAME_CONFIG.TRUCO.POINTS_PER_BOX, pointsLeft)
-    const index = GAME_CONFIG.TRUCO.BOX_ORDER[i]
+    const boxPos = GAME_CONFIG.TRUCO.BOX_ORDER[i]
 
-    boxes[index] = <Matchbox key={index} amount={pointsInBox} />
+    boxes[boxPos] = <Matchbox key={boxPos} amount={pointsInBox} />
   }
 
   return <>{boxes}</>
 }
 
-function TrucoScoreboard () {
+function TrucoScoreboard() {
   const [scores, setScores] = useState<TrucoScores>({ nosotros: 0, ellos: 0 })
 
   const changeScore = (team: TrucoTeam, amount: number) => {
